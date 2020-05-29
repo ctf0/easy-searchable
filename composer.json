@@ -1,0 +1,34 @@
+{
+    "name": "ctf0/easy-searchable",
+    "description": "search model & relation attributes with ease",
+    "homepage": "https://github.com/ctf0/easy-searchable",
+    "license": "MIT",
+    "keywords": [
+        "ctf0",
+        "laravel",
+        "search",
+        "relation"
+    ],
+    "authors": [
+        {
+            "name": "ctf0",
+            "email": "muah003@gmail.com"
+        }
+    ],
+    "require": {
+        "illuminate/support": "^6.0 || ^7.0",
+        "laravie/query-filter": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "ctf0\\EasySearchable\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ctf0\\EasySearchable\\EasySearchableServiceProvider"
+            ]
+        }
+    }
+}
