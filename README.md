@@ -16,7 +16,7 @@ composer require ctf0/easy-searchable
 - in ur model add
 
 ```php
-use ctf0\EasySearchable\Trait\HasSearch;
+use ctf0\EasySearchable\Traits\HasSearch;
 
 class Post extends Model
 {
