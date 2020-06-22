@@ -13,7 +13,7 @@ composer require ctf0/easy-searchable
 
 # Setup
 
-> also check https://github.com/laravie/query-filter#search-with-relations
+> also check https://github.com/laravie/query-filter#search-queries
 
 - in ur model add
 
