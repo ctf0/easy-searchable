@@ -78,7 +78,8 @@ trait HasSearch
     {
         return $query->queryFilter(
             $customFields ?: $this->getSearchableFields(),
-            $searchTerm
+            $searchTerm,
+            false
         );
     }
 }

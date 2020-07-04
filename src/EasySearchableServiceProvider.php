@@ -19,14 +19,14 @@ class EasySearchableServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        QueryBuilder::macro('queryFilter', function ($attributes, string $searchTerm) {
-            $searchTerm = str_replace(' ', '%', $searchTerm);
+        QueryBuilder::macro('queryFilter', function ($attributes, string $searchTerm, $replaceSpace = false) {
+            $searchTerm = $replaceSpace ? str_replace(' ', '%', $searchTerm) : $searchTerm;
 
             return (new Searchable($searchTerm, Arr::wrap($attributes)))->apply($this);
         });
 
-        EloquentBuilder::macro('queryFilter', function ($attributes, string $searchTerm) {
-            $searchTerm = str_replace(' ', '%', $searchTerm);
+        EloquentBuilder::macro('queryFilter', function ($attributes, string $searchTerm, $replaceSpace = false) {
+            $searchTerm = $replaceSpace ? str_replace(' ', '%', $searchTerm) : $searchTerm;
 
             return (new Searchable($searchTerm, Arr::wrap($attributes)))->apply($this);
         });
