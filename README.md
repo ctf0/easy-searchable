@@ -41,7 +41,7 @@ class Post extends Model
     // under each relation add the '$searchableAttributes' and we will pick them up automatically
     public $searchableRelations  = [];
     
-    // we search using the full sentance, however if you prefer to search by words,
+    // we search using the full sentence, however if you prefer to search by words,
     // then use
     public function scopeSearch($query, $searchTerm, $customFields = null)
     {
