@@ -24,10 +24,10 @@ class Post extends Model
 {
     use HasSearch;
 
-    // if empty then use all model fields 
+    // if empty then use all model fields
     // except "dates, primary_key, hidden"
     public $searchableAttributes = [];
-    
+
     // or if you want to customize the attributes to search in, like json keys
     // you can instead use
     public function getSearchableAttributes()
@@ -37,10 +37,15 @@ class Post extends Model
         ];
     }
 
+    // ignore attributes
+    // so instead of listing all the needed columns in `$searchableAttributes`
+    // you can instead ingore that ones you don't want
+    public $searchableAttributesIgnore = [];
+
     // the relations you want to be searched
     // under each relation add the '$searchableAttributes' and we will pick them up automatically
     public $searchableRelations  = [];
-    
+
     // we search using the full sentence, however if you prefer to search by words,
     // then use
     public function scopeSearch($query, $searchTerm, $customFields = null)
