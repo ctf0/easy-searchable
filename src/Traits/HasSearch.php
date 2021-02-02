@@ -2,17 +2,27 @@
 
 namespace ctf0\EasySearchable\Traits;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Schema;
 
 /**
  * under each model add any/both of.
  *
+ * public $replaceSpace = false;
  * public $searchableAttributes = [];
  * public $searchableAttributesIgnore = [];
  * public $searchableRelations = [];
  */
 trait HasSearch
 {
+    /**
+     * self.
+     */
+    public function getReplaceSpace()
+    {
+        return $this->replaceSpace ?? false;
+    }
+
     /**
      * self.
      */
@@ -95,8 +105,19 @@ trait HasSearch
     {
         return $query->queryFilter(
             $customFields ?: $this->getSearchableFields(),
-            $searchTerm,
-            false
+            $this->searchStrict($searchTerm),
+            $this->getReplaceSpace()
         );
+    }
+
+    protected function searchStrict($searchTerm)
+    {
+        if (Str::contains($searchTerm, ['"'])) {
+            $searchTerm = str_replace(' ', '*', $searchTerm);
+            $searchTerm = Str::replaceFirst('"', '', $searchTerm);
+            $searchTerm = Str::replaceLast('"', '', $searchTerm);
+        }
+
+        return $searchTerm;
     }
 }

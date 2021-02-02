@@ -24,7 +24,9 @@ class Post extends Model
 {
     use HasSearch;
 
-    // if empty then use all model fields
+    // searched attributes
+    //
+    // when empty, all model fields will be search
     // except "dates, primary_key, hidden"
     public $searchableAttributes = [];
 
@@ -38,24 +40,21 @@ class Post extends Model
     }
 
     // ignore attributes
+    //
     // so instead of listing all the needed columns in `$searchableAttributes`
     // you can instead ingore that ones you don't want
     public $searchableAttributesIgnore = [];
 
-    // the relations you want to be searched
+    // searched relations
+    //
+    // when empty, no relation will be search
     // under each relation add the '$searchableAttributes' and we will pick them up automatically
+    // doesnt support nested relations
     public $searchableRelations  = [];
 
-    // we search using the full sentence, however if you prefer to search by words,
-    // then use
-    public function scopeSearch($query, $searchTerm, $customFields = null)
-    {
-        return $query->queryFilter(
-            $customFields ?: $this->getSearchableFields(),
-            $searchTerm,
-            true
-        );
-    }
+    // we search using the full sentence, 
+    // however if you prefer to search by words, then use
+    public $replaceSpace = true;
 }
 ```
 
