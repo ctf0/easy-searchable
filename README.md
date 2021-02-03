@@ -26,30 +26,30 @@ class Post extends Model
 
     // searched attributes
     //
-    // when empty, all model fields will be search
+    // when empty, all model fields will be searched
     // except "dates, primary_key, hidden"
     public $searchableAttributes = [];
 
-    // or if you want to customize the attributes to search in, like json keys
-    // you can instead use
+    // or have a complete freedom and directly use
     public function getSearchableAttributes()
     {
         return [
             'name->' . app()->getLocale(),
+            // ...
         ];
     }
 
     // ignore attributes
     //
     // so instead of listing all the needed columns in `$searchableAttributes`
-    // you can instead ingore that ones you don't want
+    // you can ignore the ones you don't need here
     public $searchableAttributesIgnore = [];
 
     // searched relations
     //
-    // when empty, no relation will be search
-    // under each relation add the '$searchableAttributes' and we will pick them up automatically
-    // doesnt support nested relations
+    // when empty, no relation will be searched
+    // * under each relation add the '$searchableAttributes' and we will pick them up automatically
+    // * doesn't support nested relations
     public $searchableRelations  = [];
 
     // we search using the full sentence, 
@@ -63,6 +63,9 @@ class Post extends Model
 ```php
 // auto search in model & relations attributes
 Post::search('search for something')->get();
+
+// to strict search even further, wrap the text with either `'` or `"`
+Post::search('"search for something"')->get();
 
 // search in specific fields
 Post::search('search for something', ['columnName','relation.columnName'])->get();

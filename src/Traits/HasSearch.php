@@ -18,23 +18,15 @@ trait HasSearch
     /**
      * self.
      */
-    public function getReplaceSpace()
-    {
-        return $this->replaceSpace ?? false;
-    }
-
-    /**
-     * self.
-     */
     public function getSearchableAttributes()
     {
         return $this->searchableAttributes ?? $this->filterSelfSearchableAttributes();
     }
 
     /**
-     * self ignore.
+     * ignore.
      */
-    protected function getSearchableAttributesIgnore()
+    public function getSearchableAttributesIgnore()
     {
         return $this->searchableAttributesIgnore ?? [];
     }
@@ -42,7 +34,7 @@ trait HasSearch
     /**
      * relations.
      */
-    protected function getSearchableRelations()
+    public function getSearchableRelations()
     {
         return $this->searchableRelations ?? [];
     }
@@ -110,12 +102,20 @@ trait HasSearch
         );
     }
 
+    /* -------------------------------------------------------------------------- */
+    /*                                  FUZZINESS                                 */
+    /* -------------------------------------------------------------------------- */
+
+    protected function getReplaceSpace()
+    {
+        return $this->replaceSpace ?? false;
+    }
+
     protected function searchStrict($searchTerm)
     {
-        if (Str::contains($searchTerm, ['"'])) {
+        if (Str::contains($searchTerm, ['"', '\''])) {
             $searchTerm = str_replace(' ', '*', $searchTerm);
-            $searchTerm = Str::replaceFirst('"', '', $searchTerm);
-            $searchTerm = Str::replaceLast('"', '', $searchTerm);
+            $searchTerm = preg_replace('/^[\'"]|[\'"]$/', '', $searchTerm);
         }
 
         return $searchTerm;
