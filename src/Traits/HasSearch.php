@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Schema;
 /**
  * under each model add any/both of.
  *
- * public $replaceSpace = false;
+ * public $replaceSpace = true;
+ * public $searchableDates = true;
  * public $searchableAttributes = [];
  * public $searchableAttributesIgnore = [];
  * public $searchableRelations = [];
@@ -47,12 +48,12 @@ trait HasSearch
         $attrs  = Schema::getColumnListing($this->getTable());
         $remove = array_merge(
             [$this->getKeyName()],
-            $this->getDates(),
+            $this->getSearchableDates() ? [] : $this->getDates(),
             $this->getHidden(),
             $this->getSearchableAttributesIgnore()
         );
 
-        return array_diff($attrs, $remove);
+        return array_diff($attrs, array_filter($remove));
     }
 
     /**
@@ -109,6 +110,11 @@ trait HasSearch
     protected function getReplaceSpace()
     {
         return $this->replaceSpace ?? false;
+    }
+
+    protected function getSearchableDates()
+    {
+        return $this->searchableDates ?? false;
     }
 
     protected function searchStrict($searchTerm)

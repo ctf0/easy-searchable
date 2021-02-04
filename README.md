@@ -52,9 +52,12 @@ class Post extends Model
     // * doesn't support nested relations
     public $searchableRelations  = [];
 
-    // we search using the full sentence, 
+    // we search using the full sentence,
     // however if you prefer to search by words, then use
     public $replaceSpace = true;
+
+    // to force searching dates
+    public $searchableDates = true;
 }
 ```
 
