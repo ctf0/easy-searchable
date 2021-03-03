@@ -30,5 +30,11 @@
                 "ctf0\\EasySearchable\\EasySearchableServiceProvider"
             ]
         }
-    }
+    },
+    "funding": [
+        {
+            "type": "patreon",
+            "url": "https://www.patreon.com/ctf0"
+        }
+    ]
 }

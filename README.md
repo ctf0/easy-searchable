@@ -73,3 +73,9 @@ Post::search('"search for something"')->get();
 // search in specific fields
 Post::search('search for something', ['columnName','relation.columnName'])->get();
 ```
+
+<br>
+
+### Security
+
+If you discover any security-related issues, please email [ctf0-dev@protonmail.com](mailto:ctf0-dev@protonmail.com).

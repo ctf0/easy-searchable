@@ -16,6 +16,13 @@ use Illuminate\Support\Facades\Schema;
  */
 trait HasSearch
 {
+    protected $noWildCard = false;
+
+    protected function getSearchableDates()
+    {
+        return $this->searchableDates ?? false;
+    }
+
     /**
      * self.
      */
@@ -87,6 +94,8 @@ trait HasSearch
         );
     }
 
+    /* -------------------------------------------------------------------------- */
+
     /*
      * search() scope.
      *
@@ -98,8 +107,8 @@ trait HasSearch
     {
         return $query->queryFilter(
             $customFields ?: $this->getSearchableFields(),
-            $this->searchStrict($searchTerm),
-            $this->getReplaceSpace()
+            $this->resolveSearchTerm($searchTerm),
+            $this->noWildCard
         );
     }
 
@@ -107,23 +116,31 @@ trait HasSearch
     /*                                  FUZZINESS                                 */
     /* -------------------------------------------------------------------------- */
 
-    protected function getReplaceSpace()
+    protected function resolveSearchTerm($searchTerm)
     {
-        return $this->replaceSpace ?? false;
-    }
+        $searchTerm = $this->searchStrict($searchTerm);
+        $searchTerm = $this->replaceSpaces($searchTerm);
 
-    protected function getSearchableDates()
-    {
-        return $this->searchableDates ?? false;
+        return $searchTerm;
     }
 
     protected function searchStrict($searchTerm)
     {
-        if (Str::contains($searchTerm, ['"', '\''])) {
-            $searchTerm = str_replace(' ', '*', $searchTerm);
+        if (Str::startsWith($searchTerm, ['"', '\''])) {
             $searchTerm = preg_replace('/^[\'"]|[\'"]$/', '', $searchTerm);
+
+            $this->noWildCard = true;
         }
 
         return $searchTerm;
+    }
+
+    protected function replaceSpaces($searchTerm)
+    {
+        $replace = $this->replaceSpace ?? false;
+
+        return $replace
+                    ? str_replace(' ', '%', $searchTerm)
+                    : $searchTerm;
     }
 }
