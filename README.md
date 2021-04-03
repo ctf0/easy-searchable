@@ -74,6 +74,28 @@ Post::search('"search for something"')->get();
 Post::search('search for something', ['columnName','relation.columnName'])->get();
 ```
 
+## Morph Relation Search
+
+either use 
+- https://github.com/laravie/query-filter#search-with-morph-relations which will disable the auto search the trait does, or
+- create a scope and chain it to ur search call ex.
+```php
+// model
+public function scopeWorkerSearch($query, $searchTerm)
+{
+    return $query->orWhereHasMorph(
+        'workerable', // name of the morph relation
+        '*',
+        function ($q) use ($searchTerm) {
+            $q->search($searchTerm);
+        }
+    );
+}
+
+// controller
+return $query->search($text)->workerSearch($text);
+```
+
 <br>
 
 ### Security
