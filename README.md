@@ -77,7 +77,7 @@ Post::search('search for something', ['columnName','relation.columnName'])->get(
 ## Morph Relation Search
 
 either use 
-- https://github.com/laravie/query-filter#search-with-morph-relations which will disable the auto search the trait does, or
+- https://github.com/laravie/query-filter#search-with-morph-relations **"which will disable the auto search the trait does"**
 - create a scope and chain it to ur search call ex.
 ```php
 // model
